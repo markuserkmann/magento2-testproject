@@ -1,0 +1,13 @@
+/pub/static/*
+/pub/media/
+node_modules/
+npm-debug.log
+yarn-error.log
+/dist/
+/app/etc/env.php
+/app/etc/config.php
+/generated/
+/var/
+/vendoer
+/.idea/
+/.vscode/
