@@ -62,9 +62,31 @@ class Hello extends Action
     }
     
     // Retrieves all the products, generates a random float between 0.5 and 1.5, and multiplies the product price by the current temperature. Chooses randomly if it increases or decreases the product price. 
-    public function ChangePricesBasedOnTemperature () 
+    public function ChangePricesBasedOnTemperature($temp)
     {
+        $products = $this->FetchAllTheProducts();
+        $changedProducts = [];
 
+        foreach ($products as $product) {
+            $factor = mt_rand(50, 150) / 100;
+            $direction = mt_rand(0, 1) ? 1 : -1;
+
+            $newPrice = $product['price'] + ($direction * $product['price'] * $factor * ($temp / 100));
+            $newPrice = round($newPrice, 2);
+
+            $action = $direction === 1 ? '+' : '-';
+
+            $changedProducts[] = [
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'original_price' => $product['price'],
+                'new_price' => $newPrice,
+                'temp' => $temp,
+                'action' => $action
+            ];
+        }
+
+        return $changedProducts;
     }
 
     public function execute()
@@ -83,12 +105,12 @@ class Hello extends Action
                 $temp = 'N/A';
             }
 
-            $products = $this->FetchAllTheProducts();
+            $changedProducts = $this->ChangePricesBasedOnTemperature(is_numeric($temp) ? $temp : 0);
 
             $output = "Current temperature: {$temp}°C<br><br>";
-            $output .= "<strong>Products:</strong><br>";
-            foreach ($products as $product) {
-                $output .= "ID: {$product['id']},  Name: {$product['name']}, Price: {$product['price']}<br>";
+            $output .= "<strong>Products with changed prices:</strong><br>";
+            foreach ($changedProducts as $product) {
+                $output .= "ID: {$product['id']}, Name: {$product['name']}, Original Price: {$product['original_price']}, New Price: {$product['new_price']}, Temp: {$product['temp']}°C, Action: {$product['action']}<br>";
             }
 
 
