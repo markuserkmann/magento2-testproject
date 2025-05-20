@@ -4,7 +4,7 @@ This module dynamically updates product prices based on the current temperature 
 
 ## Installation
 
-1. Download the Magento module from this GitHub link.
+1. Download the Magento module from this GitHub link: https://github.com/markuserkmann/magento-test-module.git
 2. Go into your Magento 2 installation directory.
 3. Place the module folder into the `app/code/Vendor` directory (so the path is `app/code/Vendor/WeatherChanges`).
 4. Run the following commands in your Magento root directory:
